@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="secondary">
     <ion-title>
-      Vídeos App
+      {{titulo}}
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -10,18 +10,18 @@
   <ion-searchbar placeholder="Buscar"></ion-searchbar>
   <!-- Lista de itens de texto -->
   <ion-list>
-    <ion-item-sliding>
+    <ion-item-sliding *ngFor="let filme of listaVideos">
       <ion-item lines="full">
         <ion-thumbnail slot="start">
-          <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/l7BZsQDslgmltoM7Mxv8ZOBuCUY.jpg">
+          <img [src]="filme.cartaz">
         </ion-thumbnail>
         <ion-label class="ion-text-wrap">
-          <h1>Setembro em Shiraz (2015)</h1>
-          <p>24/06/2016 (BR) - 1h 50m</p>
-          <p>Drama, Thriller</p>
+          <h1>{{filme.nome}}</h1>
+          <p>{{filme.lancamento}} - {{filme.duracao}}</p>
+          <ion-badge color="light" *ngFor="let genero of filme.generos">{{genero}}</ion-badge>
         </ion-label>
         <ion-chip outline color="success">
-          <ion-label>76%</ion-label>
+          <ion-label>{{filme.classificacao}}%</ion-label>
         </ion-chip>
       </ion-item>
       <ion-item-options side="end">
@@ -30,90 +30,6 @@
         </ion-item-option>
       </ion-item-options>
     </ion-item-sliding>
-
-    <ion-item-sliding>
-      <ion-item lines="full">
-        <ion-thumbnail slot="start">
-          <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/t1PBqWmRrfLszd7gsO4AQjZwrvQ.jpg">
-        </ion-thumbnail>
-        <ion-label class="ion-text-wrap">
-          <h1>Livrai-nos do Mal (2014)</h1>
-          <p>10/09/2014 (BR) - 1h 58m</p>
-          <p>Thriller, Crime, Terror</p>
-        </ion-label>
-        <ion-chip outline color="tertiary">
-          <ion-label>62%</ion-label>
-        </ion-chip>
-      </ion-item>
-      <ion-item-options side="end">
-        <ion-item-option color='verde' (click)="exibirAlertaFavorito()">
-          <ion-icon slot="icon-only" name="star"></ion-icon>
-        </ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
-
-    <ion-item-sliding>
-      <ion-item lines="full">
-        <ion-thumbnail slot="start">
-          <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/fV45HAC5kxY2fbUKKT2vNyYDZNr.jpg">
-        </ion-thumbnail>
-        <ion-label class="ion-text-wrap">
-          <h1>Sete Homens e Um Destino (2016)</h1>
-          <p>22/09/2016 (BR) - 2h 13m</p>
-          <p>Aventura, Ação, Faroeste</p>
-        </ion-label>
-        <ion-chip outline color="tertiary">
-          <ion-label>63%</ion-label>
-        </ion-chip>
-      </ion-item>
-      <ion-item-options side="end">
-        <ion-item-option color='roxo' (click)="exibirAlertaFavorito()">
-          <ion-icon slot="icon-only" name="star"></ion-icon>
-        </ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
-
-    <ion-item-sliding>
-      <ion-item lines="full">
-        <ion-thumbnail slot="start">
-          <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/iwUWFzhwUdEF6nI3DYa4Q4qFgzg.jpg">
-        </ion-thumbnail>
-        <ion-label class="ion-text-wrap">
-          <h1>O Capitão (2017)</h1>
-          <p>27/07/2018 (BR) - 1h 58m</p>
-          <p>Guerra, Drama, História</p>
-        </ion-label>
-        <ion-chip outline color="success">
-          <ion-label>71%</ion-label>
-        </ion-chip>
-      </ion-item>
-      <ion-item-options side="end">
-        <ion-item-option color='verde' (click)="exibirAlertaFavorito()">
-          <ion-icon slot="icon-only" name="star"></ion-icon>
-        </ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
-
-    <ion-item-sliding>
-      <ion-item lines="full">
-        <ion-thumbnail slot="start">
-          <img src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/ejMx7Hzh6FkG6BVWRpGYUMONlO2.jpg">
-        </ion-thumbnail>
-        <ion-label class="ion-text-wrap">
-          <h1>Eu Me Importo (2021)</h1>
-          <p>19/02/2021 (RU) - 1h 58m</p>
-          <p>Comédia, Crime, Thriller</p>
-        </ion-label>
-        <ion-chip outline color="tertiary">
-          <ion-label>67%</ion-label>
-        </ion-chip>
-      </ion-item>
-      <ion-item-options side="end">
-        <ion-item-option color='roxo' (click)="exibirAlertaFavorito()">
-          <ion-icon slot="icon-only" name="star"></ion-icon>
-        </ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
-
   </ion-list>
+
 </ion-content>
