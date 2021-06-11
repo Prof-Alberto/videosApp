@@ -1,6 +1,10 @@
+import { IListaGenero, IGenero } from './../models/IGenero.model';
+import { GeneroService } from './../services/genero.service';
+import { IListaFilmes, IFilmeApi } from './../models/IFilmeAPI.model';
+import { FilmeService } from './../services/filme.service';
 import { DadosService } from './../services/dados.service';
 import { IFilme } from './../models/IFilme.model';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
@@ -10,9 +14,9 @@ import { Router } from '@angular/router';
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss']
 })
-export class Tab1Page {
+export class Tab1Page implements OnInit {
 
-  titulo = 'Videos';
+  titulo = 'Filmes';
   listaVideos: IFilme[] = [
     {
       nome: 'Setembro em Shiraz (2015)',
@@ -43,7 +47,6 @@ export class Tab1Page {
       generos: ['Aventura', 'Ação', 'Faroeste']
     },
 
-
     {
       nome: 'O Capitão (2017)',
       lancamento: '27/07/2018',
@@ -53,7 +56,6 @@ export class Tab1Page {
       generos: ['Guerra', 'Drama', 'História']
     },
 
-
     {
       nome: 'Eu Me Importo (2021)',
       lancamento: '19/02/2021',
@@ -62,15 +64,40 @@ export class Tab1Page {
       cartaz: 'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/ejMx7Hzh6FkG6BVWRpGYUMONlO2.jpg',
       generos: ['Comédia', 'Crime', 'Thriller']
     },
+
+    {
+      nome: 'Convenção das Bruxas (2020)',
+      lancamento: '19/11/2020',
+      duracao: '1h 46m',
+      classificacao: 66,
+      cartaz: 'https://www.themoviedb.org/t/p/w600_and_h900_bestv2/orrJiQs30G6zSkT8is4QOAtRpFM.jpg',
+      generos: ['Família', 'Fantasia', 'Aventura', 'Comédia', 'Terror']
+    },
   ];
+  listaFilmes: IListaFilmes;
+
+  generos: string[] = [];
 
   constructor(
     public alertController: AlertController,
     public toastController: ToastController,
     public dadosService: DadosService,
+    public filmeService: FilmeService,
+    public generoService: GeneroService,
     public route: Router) { }
 
-  exibirFilme(filme: IFilme) {
+  buscarFilmes(evento: any) {
+    console.log(evento.target.value);
+    const busca = evento.target.value;
+    if (busca && busca.trim() !== '') {
+      this.filmeService.buscarFilmes(busca).subscribe(dados => {
+        console.log(dados);
+        this.listaFilmes = dados;
+      });
+    }
+  }
+
+  exibirFilme(filme: IFilmeApi) {
     this.dadosService.guardarDados('filme', filme);
     this.route.navigateByUrl('/dados-filme');
   }
@@ -105,5 +132,15 @@ export class Tab1Page {
       color: 'success'
     });
     toast.present();
+  }
+
+  ngOnInit(){
+    this.generoService.bucarGenero().subscribe(dados =>{
+      console.log('Generos: ', dados.genres);
+      dados.genres.forEach(genero =>
+        this.generos[genero.id] = genero.name);
+    });
+
+    this.dadosService.guardarDados('generos', this.generos);
   }
 }
